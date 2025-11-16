@@ -1,4 +1,4 @@
-const API = "http://localhost:8000/predict";
+const API = "https://gnss-clk.onrender.com/predict";
 
 let currentChart = null;
 
