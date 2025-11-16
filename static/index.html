@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GNSS Clock Bias Predictor</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>🚀 GNSS Satellite Clock Bias Predictor</h1>
+
+      <p class="sub">
+        Upload your GNSS bias/drift CSV to get full-precision GRU predictions.
+      </p>
+
+      <div class="upload-card">
+        <input type="file" id="fileInput" accept=".csv" />
+        <button id="btnPredict">Predict</button>
+
+        <div id="uploadProgress" class="progress">
+          <div id="progressBar"></div>
+        </div>
+
+        <p id="status">Waiting for file...</p>
+      </div>
+
+      <div id="results" class="results hidden">
+        <h2>Prediction Output</h2>
+
+        <a id="downloadBtn" class="download-btn" style="display: none"
+          >Download CSV</a
+        >
+
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Timestamp</th>
+              <th>Predicted Bias (sec)</th>
+            </tr>
+          </thead>
+          <tbody id="table_body"></tbody>
+        </table>
+
+        <h2 style="margin-top: 40px">Visualization</h2>
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
