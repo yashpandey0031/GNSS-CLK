@@ -40,15 +40,37 @@ document.getElementById("btnPredict").addEventListener("click", async () => {
     return;
   }
 
-  document.getElementById("status").innerText = "Starting upload...";
+  const status = document.getElementById("status");
+  status.innerText = "Starting upload...";
+
+  // Detect cold start by using a timeout
+  let coldStart = true;
+  const warmupTimer = setTimeout(() => {
+    if (coldStart) {
+      status.innerText =
+        "Warming up Render free server... this may take 20–40 seconds.";
+    }
+  }, 3000); // If no response in 3 sec → likely cold start
 
   try {
     const data = await uploadAndPredict(file);
-    document.getElementById("status").innerText = "Processing complete.";
+
+    coldStart = false;
+    clearTimeout(warmupTimer);
+    status.innerText = "Processing complete.";
 
     showResults(data.predictions);
   } catch (err) {
-    document.getElementById("status").innerText = "Error: " + err;
+    coldStart = false;
+    clearTimeout(warmupTimer);
+
+    // If first request failed but server woke up later
+    if (err.includes("Network error")) {
+      status.innerText = "Server woke up. Click Predict again to continue.";
+      return;
+    }
+
+    status.innerText = "Error: " + err;
   }
 });
 
